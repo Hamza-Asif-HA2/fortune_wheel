@@ -44,7 +44,7 @@ class _WheelState extends State<Wheel> {
     8,
   ];
 
-  // List for shadow Container
+  // List for shadow of Container
   List<BoxShadow> shadow = [
     BoxShadow(
       offset: Offset(4, 4),

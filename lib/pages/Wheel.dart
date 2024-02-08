@@ -16,6 +16,7 @@ class Wheel extends StatefulWidget {
 final selected = BehaviorSubject<int>();
 
 class _WheelState extends State<Wheel> {
+
   int rewards = 0;
   int balance = 0;
   int tries = 5;
@@ -41,6 +42,22 @@ class _WheelState extends State<Wheel> {
     6,
     7,
     8,
+  ];
+
+  // List for shadow Container
+  List<BoxShadow> shadow = [
+    BoxShadow(
+      offset: Offset(4, 4),
+      color: Colors.grey.shade500,
+      blurRadius: 8,
+      spreadRadius: 2,
+    ),
+    BoxShadow(
+      offset: Offset(-4, -4),
+      color: Colors.white,
+      blurRadius: 12,
+      spreadRadius: 0,
+    ),
   ];
 
   void resetAll(bool reset) {
@@ -80,20 +97,7 @@ class _WheelState extends State<Wheel> {
                           18,
                         ),
                         color: Colors.grey[300],
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(4, 4),
-                            color: Colors.grey.shade500,
-                            blurRadius: 8,
-                            spreadRadius: 2,
-                          ),
-                          BoxShadow(
-                            offset: Offset(-4, -4),
-                            color: Colors.white,
-                            blurRadius: 12,
-                            spreadRadius: 0,
-                          ),
-                        ],
+                        boxShadow: shadow,
                       ),
                       child: Text(
                         'Points: ${points}',
@@ -117,20 +121,7 @@ class _WheelState extends State<Wheel> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(4, 4),
-                      color: Colors.grey.shade500,
-                      blurRadius: 15,
-                      spreadRadius: 1,
-                    ),
-                    BoxShadow(
-                      offset: Offset(-4, -4),
-                      color: Colors.white,
-                      blurRadius: 15,
-                      spreadRadius: 1,
-                    ),
-                  ],
+                  boxShadow: shadow,
                   shape: BoxShape.circle,
                 ),
                 height: 300,
@@ -208,10 +199,6 @@ class _WheelState extends State<Wheel> {
                         );
                       },
                     ),
-                    // LottieBuilder.network(
-                    //   'https://lottie.host/c426982c-8305-4cf9-a9da-9113737f353c/UCgKUFv1MA.json',
-                    //   animate: animate,
-                    // ),
                     Positioned(
                       bottom: 119,
                       child: GestureDetector(
@@ -254,20 +241,7 @@ class _WheelState extends State<Wheel> {
                         child: Container(
                           padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(4, 4),
-                                color: Colors.grey.shade500,
-                                blurRadius: 15,
-                                spreadRadius: 1,
-                              ),
-                              BoxShadow(
-                                offset: Offset(-4, -4),
-                                color: Colors.white,
-                                blurRadius: 15,
-                                spreadRadius: 1,
-                              ),
-                            ],
+                            boxShadow: shadow,
                             color: Colors.grey.shade300,
                             shape: BoxShape.circle,
                           ),
@@ -300,20 +274,7 @@ class _WheelState extends State<Wheel> {
                                 18,
                               ),
                               color: Colors.grey[300],
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(4, 4),
-                                  color: Colors.grey.shade500,
-                                  blurRadius: 8,
-                                  spreadRadius: 2,
-                                ),
-                                BoxShadow(
-                                  offset: Offset(-4, -4),
-                                  color: Colors.white,
-                                  blurRadius: 12,
-                                  spreadRadius: 0,
-                                ),
-                              ],
+                              boxShadow: shadow,
                             ),
                             child: Text(
                               'Balance: ${balance}',
@@ -332,20 +293,7 @@ class _WheelState extends State<Wheel> {
                                 18,
                               ),
                               color: Colors.grey[300],
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(4, 4),
-                                  color: Colors.grey.shade500,
-                                  blurRadius: 8,
-                                  spreadRadius: 2,
-                                ),
-                                BoxShadow(
-                                  offset: Offset(-4, -4),
-                                  color: Colors.white,
-                                  blurRadius: 12,
-                                  spreadRadius: 0,
-                                ),
-                              ],
+                              boxShadow: shadow,
                             ),
                             child: Padding(
                               padding:
@@ -371,20 +319,7 @@ class _WheelState extends State<Wheel> {
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
                           shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(4, 4),
-                              color: Colors.grey.shade500,
-                              blurRadius: 8,
-                              spreadRadius: 2,
-                            ),
-                            BoxShadow(
-                              offset: Offset(-4, -4),
-                              color: Colors.white,
-                              blurRadius: 12,
-                              spreadRadius: 0,
-                            ),
-                          ],
+                          boxShadow: shadow,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(40.0),

@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
+import 'package:fortune_wheel/pages/category.dart';
+import 'package:fortune_wheel/pages/wallpaper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rxdart/rxdart.dart';
@@ -16,7 +19,7 @@ class Wheel extends StatefulWidget {
 final selected = BehaviorSubject<int>();
 
 class _WheelState extends State<Wheel> {
-
+  int currentIndex = 0;
   int rewards = 0;
   int balance = 0;
   int tries = 5;
@@ -79,264 +82,368 @@ class _WheelState extends State<Wheel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.grey.shade300,
+        animationDuration: Duration(milliseconds: 200),
+        color: Colors.grey.shade200,
+        items: [
+          Icon(Icons.play_arrow_outlined),
+          Icon(Icons.image),
+          Icon(Icons.category),
+        ],
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              if (currentIndex != 0) {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Wheel()));
+                currentIndex = 0;
+              }
+              break;
+            case 1:
+              if (balance >= 10000) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Wallpaper(
+                      balance: balance,
+                    ),
+                  ),
+                );
+                currentIndex = 1;
+                break;
+              } else {
+                currentIndex = 0;
+              }
+            case 2:
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => WallpaperCategory()));
+              currentIndex = 2;
+              break;
+            default:
+          }
+        },
+        index: currentIndex,
+      ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          18,
-                        ),
-                        color: Colors.grey[300],
-                        boxShadow: shadow,
+      body: Padding(
+        padding: const EdgeInsets.all(1.0),
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        18,
                       ),
-                      child: Text(
-                        'Points: ${points}',
-                        style: GoogleFonts.bebasNeue(
-                          fontSize: 24,
+                      color: Colors.grey[300],
+                      boxShadow: shadow,
+                    ),
+                    child: Text(
+                      'Points: ${points}',
+                      style: GoogleFonts.bebasNeue(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Text(
+                'Time to Roll the Dice and See What Luck Has in Store for You!',
+                style: GoogleFonts.bebasNeue(
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: shadow,
+                shape: BoxShape.circle,
+              ),
+              height: 250,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  FortuneWheel(
+                    styleStrategy: UniformStyleStrategy(),
+                    animateFirst: animate,
+                    selected: selected.stream,
+                    items: [
+                      for (int i = 0; i < numbers.length; i++) ...<FortuneItem>{
+                        FortuneItem(
+                          style: FortuneItemStyle(
+                            color: i % 2 == 0
+                                ? Colors.white
+                                : Colors.grey.shade300,
+                            borderColor: Colors.white,
+                            borderWidth: 0,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                '${numbers[i]}',
+                                style: GoogleFonts.bebasNeue(
+                                  fontSize: 22,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: LottieBuilder.network(
+                                  "https://lottie.host/764a8e34-a26e-4967-a115-73530693de3a/XtcKcLCLgO.json",
+                                  height: 40,
+                                  width: 40,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      },
+                    ],
+                    onAnimationEnd: () {
+                      setState(
+                        () {
+                          rewards = numbers[selected.value];
+                          balance = balance + numbers[selected.value];
+                          points = points + point[selected.value];
+                          tries--;
+                          animate = false;
+                        },
+                      );
+
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              'Congratulations!',
+                              style: GoogleFonts.bebasNeue(
+                                fontSize: 30,
+                              ),
+                            ),
+                            content: Text(
+                              'You just won $rewards points.',
+                              style: GoogleFonts.bebasNeue(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  Positioned(
+                    bottom: 100,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (tries > 0) {
+                          animate = true;
+                          setState(() {
+                            selected.add(
+                              Fortune.randomInt(0, numbers.length),
+                            );
+                          });
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Container(
+                                height: 150,
+                                width: 150,
+                                child: AlertDialog(
+                                  backgroundColor: Colors.grey[300],
+                                  title: Text(
+                                    'Ooopss.... ;(',
+                                    style: GoogleFonts.bebasNeue(
+                                      fontSize: 30,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'You have Zero Tries :(',
+                                    style: GoogleFonts.bebasNeue(
+                                      color: Colors.grey,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          boxShadow: shadow,
+                          color: Colors.grey.shade300,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                          size: 25,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Text(
-                  'Time to Roll the Dice and See What Luck Has in Store for You!',
-                  style: GoogleFonts.bebasNeue(
-                    fontSize: 24,
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                ],
               ),
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: shadow,
-                  shape: BoxShape.circle,
-                ),
-                height: 300,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    FortuneWheel(
-                      styleStrategy: UniformStyleStrategy(),
-                      animateFirst: animate,
-                      selected: selected.stream,
-                      items: [
-                        for (int i = 0;
-                            i < numbers.length;
-                            i++) ...<FortuneItem>{
-                          FortuneItem(
-                            style: FortuneItemStyle(
-                              color: i % 2 == 0
-                                  ? Colors.white
-                                  : Colors.grey.shade300,
-                              borderColor: Colors.white,
-                              borderWidth: 0,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              18,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '${numbers[i]}',
-                                  style: GoogleFonts.bebasNeue(
-                                    fontSize: 22,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 16.0),
-                                  child: LottieBuilder.network(
-                                    "https://lottie.host/764a8e34-a26e-4967-a115-73530693de3a/XtcKcLCLgO.json",
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                ),
-                              ],
+                            color: Colors.grey[300],
+                            boxShadow: shadow,
+                          ),
+                          child: Text(
+                            'Balance: ${balance}',
+                            style: GoogleFonts.bebasNeue(
+                              fontSize: 14,
                             ),
                           ),
-                        },
-                      ],
-                      onAnimationEnd: () {
-                        setState(
-                          () {
-                            rewards = numbers[selected.value];
-                            balance = balance + numbers[selected.value];
-                            points = points + point[selected.value];
-                            tries--;
-                            animate = false;
-                          },
-                        );
-
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 14.0),
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              18,
+                            ),
+                            color: Colors.grey[300],
+                            boxShadow: shadow,
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Text(
+                              'Tries: ${tries}',
+                              style: GoogleFonts.bebasNeue(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        resetAll(true);
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        shape: BoxShape.circle,
+                        boxShadow: shadow,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Text(
+                          'Reset All',
+                          style: GoogleFonts.bebasNeue(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (balance >= 10000) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Wallpaper(
+                                balance: balance,
+                              ),
+                            ));
+                      } else {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                'Congratulations!',
-                                style: GoogleFonts.bebasNeue(
-                                  fontSize: 30,
+                            return Container(
+                              height: 150,
+                              width: 150,
+                              child: AlertDialog(
+                                backgroundColor: Colors.grey[300],
+                                title: Text(
+                                  'Ooopss.... ;(',
+                                  style: GoogleFonts.bebasNeue(
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                              content: Text(
-                                'You just won $rewards points.',
-                                style: GoogleFonts.bebasNeue(
-                                  color: Colors.grey,
+                                content: Text(
+                                  'Balance is less than 10k:(',
+                                  style: GoogleFonts.bebasNeue(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ),
                             );
                           },
                         );
-                      },
-                    ),
-                    Positioned(
-                      bottom: 119,
-                      child: GestureDetector(
-                        onTap: () {
-                          if (tries > 0) {
-                            animate = true;
-                            setState(() {
-                              selected.add(
-                                Fortune.randomInt(0, numbers.length),
-                              );
-                            });
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Container(
-                                  height: 150,
-                                  width: 150,
-                                  child: AlertDialog(
-                                    backgroundColor: Colors.grey[300],
-                                    title: Text(
-                                      'Ooopss.... ;(',
-                                      style: GoogleFonts.bebasNeue(
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                    content: Text(
-                                      'You have Zero Tries :(',
-                                      style: GoogleFonts.bebasNeue(
-                                        color: Colors.grey,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          }
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            boxShadow: shadow,
-                            color: Colors.grey.shade300,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.play_arrow,
-                            color: Colors.white,
-                            size: 40,
+                      }
+                      // setState(() {
+                      //   resetAll(true);
+                      // });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: shadow,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          'Unlock Wallpapers',
+                          style: GoogleFonts.bebasNeue(
+                            fontSize: 14,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                18,
-                              ),
-                              color: Colors.grey[300],
-                              boxShadow: shadow,
-                            ),
-                            child: Text(
-                              'Balance: ${balance}',
-                              style: GoogleFonts.bebasNeue(
-                                fontSize: 24,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 14.0),
-                          child: Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                18,
-                              ),
-                              color: Colors.grey[300],
-                              boxShadow: shadow,
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Text(
-                                'Tries: ${tries}',
-                                style: GoogleFonts.bebasNeue(
-                                  fontSize: 24,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          resetAll(true);
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          shape: BoxShape.circle,
-                          boxShadow: shadow,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(40.0),
-                          child: Text(
-                            'Reset All',
-                            style: GoogleFonts.bebasNeue(
-                              fontSize: 34,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

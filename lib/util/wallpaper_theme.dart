@@ -40,8 +40,9 @@ class WallpaperTheme extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: shadow,
             ),
-            padding: EdgeInsets.all(
-              22,
+            padding: EdgeInsets.symmetric(
+              horizontal: 18,
+              vertical: 12,
             ),
             child: Icon(iconData),
           ),
@@ -51,7 +52,7 @@ class WallpaperTheme extends StatelessWidget {
           Text(
             theme,
             style: GoogleFonts.bebasNeue(
-              fontSize: 24,
+              fontSize: 14,
             ),
           ),
         ],

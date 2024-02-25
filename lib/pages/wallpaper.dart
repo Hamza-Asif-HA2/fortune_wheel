@@ -56,15 +56,38 @@ class Wallpaper extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    WallpaperTheme(theme: 'Nature', iconData: Icons.nature),
-                    WallpaperTheme(theme: 'Cars', iconData: Icons.car_crash),
                     WallpaperTheme(
-                        theme: 'Mountain', iconData: Icons.wind_power),
-                    WallpaperTheme(theme: 'Animals', iconData: Icons.water),
-                    WallpaperTheme(theme: 'Forest', iconData: Icons.add_box),
-                    WallpaperTheme(theme: 'Cars', iconData: Icons.bus_alert),
-                    WallpaperTheme(theme: 'Ocean', iconData: Icons.waves),
-                    WallpaperTheme(theme: 'Cats', iconData: Icons.gamepad),
+                      theme: 'Nature',
+                      iconData: Icons.nature,
+                    ),
+                    WallpaperTheme(
+                      theme: 'Cars',
+                      iconData: Icons.car_crash,
+                    ),
+                    WallpaperTheme(
+                      theme: 'Mountain',
+                      iconData: Icons.wind_power,
+                    ),
+                    WallpaperTheme(
+                      theme: 'Animals',
+                      iconData: Icons.water,
+                    ),
+                    WallpaperTheme(
+                      theme: 'Forest',
+                      iconData: Icons.add_box,
+                    ),
+                    WallpaperTheme(
+                      theme: 'Cars',
+                      iconData: Icons.bus_alert,
+                    ),
+                    WallpaperTheme(
+                      theme: 'Ocean',
+                      iconData: Icons.waves,
+                    ),
+                    WallpaperTheme(
+                      theme: 'Cats',
+                      iconData: Icons.gamepad,
+                    ),
                   ],
                 ),
               ),

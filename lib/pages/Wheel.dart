@@ -135,7 +135,7 @@ class _WheelState extends State<Wheel> {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
+                  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 6),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -163,7 +163,7 @@ class _WheelState extends State<Wheel> {
               child: Text(
                 'Time to Roll the Dice and See What Luck Has in Store for You!',
                 style: GoogleFonts.bebasNeue(
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
               ),

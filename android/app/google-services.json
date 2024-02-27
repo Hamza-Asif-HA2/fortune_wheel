@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "60126022461",
+    "project_id": "fortune-wheel-c97e9",
+    "storage_bucket": "fortune-wheel-c97e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60126022461:android:c212ac1b6b4acba47a1354",
+        "android_client_info": {
+          "package_name": "com.example.fortune_wheel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1BECzm_7jXGt-qLctbp3MnWlYHIX83yY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

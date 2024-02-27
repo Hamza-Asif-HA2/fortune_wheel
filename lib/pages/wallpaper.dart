@@ -20,7 +20,7 @@ class Wallpaper extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         index: 1,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color.fromRGBO(105, 105, 105, 0),
         animationDuration: Duration(milliseconds: 200),
         color: Colors.grey.shade200,
         items: [

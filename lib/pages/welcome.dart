@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:fortune_wheel/pages/authorize/auth_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-
-import 'Wheel.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -39,7 +38,7 @@ class Welcome extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Wheel(),
+                      builder: (context) => AuthUser(),
                     ),
                   );
                 },

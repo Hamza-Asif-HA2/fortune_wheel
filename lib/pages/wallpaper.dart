@@ -7,6 +7,8 @@ import 'package:fortune_wheel/pages/category.dart';
 import 'package:fortune_wheel/util/wallpaper_itself.dart';
 import 'package:fortune_wheel/util/wallpaper_theme.dart';
 
+import 'Setting.dart';
+
 class Wallpaper extends StatelessWidget {
   final int balance;
 
@@ -43,6 +45,22 @@ class Wallpaper extends StatelessWidget {
         },
       ),
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 20.0,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => settingPage()));
+              },
+              child: Icon(
+                Icons.settings,
+              ),
+            ),
+          ),
+        ],
         backgroundColor: Colors.grey[300],
         elevation: 0,
       ),

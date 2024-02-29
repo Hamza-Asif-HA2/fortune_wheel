@@ -5,28 +5,73 @@ import 'package:fortune_wheel/util/SquareTile.dart';
 import 'package:fortune_wheel/util/myButton.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   //text controller
   final _emailController = TextEditingController();
+
   final _psController = TextEditingController();
 
   //sign in method for user
   void signUserIn() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _psController.text,
       );
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        wrongEmailMessage();
+        Navigator.pop(context);
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      } else
-        print('oops: $e');
+        wrongPasswordMessage();
+        Navigator.pop(context);
+      } else {
+        Navigator.pop(context);
+        print('OOPS! =>  $e');
+      }
     }
+  }
+
+  void wrongEmailMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Incorrect Email',
+            style: GoogleFonts.poppins(),
+          ),
+        );
+      },
+    );
+  }
+
+  void wrongPasswordMessage() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Incorrect Password',
+              style: GoogleFonts.poppins(),
+            ),
+          );
+        });
   }
 
   @override

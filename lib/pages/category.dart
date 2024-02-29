@@ -9,6 +9,8 @@ import 'package:fortune_wheel/util/popularCategory.dart';
 //import 'package:fortune_wheel/util/wallpaper_itself.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Setting.dart';
+
 class WallpaperCategory extends StatelessWidget {
   const WallpaperCategory({super.key});
 
@@ -44,14 +46,31 @@ class WallpaperCategory extends StatelessWidget {
         },
       ),
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 20.0,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => settingPage()));
+              },
+              child: Icon(
+                Icons.settings,
+              ),
+            ),
+          ),
+        ],
         backgroundColor: Colors.transparent,
         title: Center(
-            child: Text(
-          'All Categories',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
+          child: Text(
+            'All Categories',
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        )),
+        ),
       ),
       backgroundColor: Colors.grey[300],
       body: Column(
@@ -64,7 +83,7 @@ class WallpaperCategory extends StatelessWidget {
             child: Text(
               'Popular',
               style: GoogleFonts.poppins(
-                fontSize: 22,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'Setting.dart';
+
 class Wheel extends StatefulWidget {
   Wheel({super.key});
 
@@ -19,33 +21,11 @@ class Wheel extends StatefulWidget {
 final selected = BehaviorSubject<int>();
 
 class _WheelState extends State<Wheel> {
-  int currentIndex = 0;
-  int rewards = 0;
-  int balance = 0;
-  int tries = 5;
+  int currentIndex = 0, rewards = 0, balance = 0, tries = 5, points = 5;
   bool animate = false;
-  int points = 5;
-  List<int> numbers = [
-    50,
-    100,
-    500,
-    1000,
-    2000,
-    5000,
-    10000,
-    50000,
-  ];
 
-  List<int> point = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-  ];
+  List<int> numbers = [50, 100, 500, 1000, 2000, 5000, 10000, 50000];
+  List<int> point = [1, 2, 3, 4, 5, 6, 7, 8];
 
   // List for shadow of Container
   List<BoxShadow> shadow = [
@@ -127,6 +107,22 @@ class _WheelState extends State<Wheel> {
       ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 20.0,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => settingPage()));
+              },
+              child: Icon(
+                Icons.settings,
+              ),
+            ),
+          ),
+        ],
       ),
       backgroundColor: Colors.grey[300],
       body: Padding(
@@ -140,7 +136,7 @@ class _WheelState extends State<Wheel> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(14),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(
                         18,
@@ -151,7 +147,7 @@ class _WheelState extends State<Wheel> {
                     child: Text(
                       'Points: ${points}',
                       style: GoogleFonts.bebasNeue(
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                   ),
@@ -163,7 +159,7 @@ class _WheelState extends State<Wheel> {
               child: Text(
                 'Time to Roll the Dice and See What Luck Has in Store for You!',
                 style: GoogleFonts.bebasNeue(
-                  fontSize: 16,
+                  fontSize: 18,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -310,10 +306,11 @@ class _WheelState extends State<Wheel> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 30),
                         child: Container(
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
@@ -332,7 +329,10 @@ class _WheelState extends State<Wheel> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14.0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 30,
+                        ),
                         child: Container(
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
@@ -369,7 +369,9 @@ class _WheelState extends State<Wheel> {
                         boxShadow: shadow,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(40.0),
+                        padding: const EdgeInsets.all(
+                          30.0,
+                        ),
                         child: Text(
                           'Reset All',
                           style: GoogleFonts.bebasNeue(

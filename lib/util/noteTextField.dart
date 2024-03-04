@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MyTextField extends StatelessWidget {
+class MyNoteTextField extends StatelessWidget {
   final controller;
   final String hintText;
   final IconData IconsData;
   final bool obscureText;
 
-  const MyTextField({
+  const MyNoteTextField({
     super.key,
     required this.hintText,
     required this.IconsData,
@@ -22,6 +22,10 @@ class MyTextField extends StatelessWidget {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 75,
+            horizontal: 12,
+          ),
           enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(
             color: Colors.white,

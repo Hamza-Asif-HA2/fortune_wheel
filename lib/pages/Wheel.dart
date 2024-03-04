@@ -10,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'Setting.dart';
+import 'marketPlace.dart';
 
 class Wheel extends StatefulWidget {
   Wheel({super.key});
@@ -370,7 +371,7 @@ class _WheelState extends State<Wheel> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(
-                          30.0,
+                          25.0,
                         ),
                         child: Text(
                           'Reset All',
@@ -425,21 +426,69 @@ class _WheelState extends State<Wheel> {
                       //   resetAll(true);
                       // });
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: shadow,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Text(
-                          'Unlock Wallpapers',
-                          style: GoogleFonts.bebasNeue(
-                            fontSize: 14,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: shadow,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(
+                                'Unlock Wallpapers',
+                                style: GoogleFonts.bebasNeue(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => marketPlace(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: shadow,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Text(
+                                        'Market Place',
+                                        style: GoogleFonts.bebasNeue(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.shop_2_outlined,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
